@@ -18,8 +18,9 @@ public class App
     public static void main( String[] args )
     {
         try {
-            String content = FileUtils.readFileToString(new File("./mapping2.yml"), Charsets.toCharset("UTF-8"));
-            Yarrrml2rmlc.translateYarrrml2RMLC(content);
+            String content = FileUtils.readFileToString(new File("./mapping.yml"), Charsets.toCharset("UTF-8"));
+            String rmlcMapping=Yarrrml2rmlc.translateYarrrml2RMLC(content);
+            System.out.println(rmlcMapping);
         } catch (IOException e) {
             e.printStackTrace();
         }

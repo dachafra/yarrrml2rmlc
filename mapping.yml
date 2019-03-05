@@ -1,0 +1,76 @@
+mappings:
+  publication:
+    source:
+      - [comment.csv~csv]
+    s: http://ex.org/Comment/$(date)$(username)$(comment)
+    po: 
+      - [a, schema:SocialMediaPosting]
+      - [schema:comment, $(comment)]
+      - [schema:dateCreated, $(date)]
+      - [schema:dateModified, $(modifiedDates)]
+      - p: schema:author
+        o:
+          mapping: person
+          condition:
+            function: equal
+            parameters:
+              - [str1, $(username)]
+              - parameter: str2
+                value:
+                  function: sql:concat
+                  parameters:
+                    - parameter: sql:valueParameter
+                      value:
+                        function: sql:substring
+                        parameters:
+                          - [sql:valueParameter, $(name), o]
+                          - [sql:valueParameter4, "1"]
+                          - [sql:valueParameter5, "1"]
+                    - [sql:valueParameter2, $(ln1), o]
+  country:
+    source: 
+      - [people.csv~csv]
+    s: http://ex.org/country/$(cName)
+    po:
+      - [a, schema:Country]
+      - [ex:officialName, $(cOfficialName)]
+
+  person:
+    source: 
+      - [people.csv~csv]
+    s: http://ex.org/Person/$(name)$(ln1)$(ln2)
+    po:
+      - [a, schema:Person]
+      - [schema:givenName, $(name)]
+      - [schema:familyName, "$(ln1) $(ln2)"]
+      - [schema:name, "$(name) $(ln1) $(ln2)"]
+      - [ex:nOfCourse, $(nCourses)]
+      - p: schema:email
+        o:
+         - function: sql:lower
+           parameters:
+             - parameter: sql:valueParameter
+               value: 
+                 function: sql:concat
+                 parameters:
+                   - parameter: sql:valueParameter
+                     value: 
+                       function: sql:substring
+                       parameters:
+                         - [sql:valueParameter, $(name)]
+                         - [sql:valueParameter4, "1"]
+                         - [sql:valueParameter5, "1"]
+                   - parameter: sql:valueParameter2
+                     value:
+                       function: sql:concat
+                       parameters:
+                         - [sql:valueParameter, $(ln1)]
+                         - [sql:valueParameter2, "@fi.upm.es"]
+      - p: ex:hasCountry
+        o:
+         mapping: country
+         condition:
+           function: equal
+           parameters:
+             - [str1, "$(name)$(ln1)$(ln2)"]
+             - [str2, "$(name)$(ln1)$(ln2)"]
