@@ -1,0 +1,123 @@
+
+<publication>
+	rml:logicalSource [
+		rml:source "comment.csv";
+		rml:referenceForumation ql:CSV
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/Comment/{date}{username}{comment}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate a;
+		rr:objectMap [
+			rr:constant schema:SocialMediaPosting;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:comment;
+		rr:objectMap [
+			rml:reference "comment";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:dateCreated;
+		rr:objectMap [
+			rml:reference "date";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:dateModified;
+		rr:objectMap [
+			rml:reference "modifiedDates";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:author;
+		rr:objectMap [
+			rr:parentTriplesMap <person>;
+			rr:joinCondition [
+				rmlc:child "{username}";
+				rmlc:parent "CONCAT(SUBSTRING({name},1,1),{ln1})";
+			];
+		];
+	].
+<country>
+	rml:logicalSource [
+		rml:source "people.csv";
+		rml:referenceForumation ql:CSV
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/country/{cName}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate a;
+		rr:objectMap [
+			rr:constant schema:Country;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:officialName;
+		rr:objectMap [
+			rml:reference "cOfficialName";
+		];
+	].
+<person>
+	rml:logicalSource [
+		rml:source "people.csv";
+		rml:referenceForumation ql:CSV
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/Person/{name}{ln1}{ln2}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate a;
+		rr:objectMap [
+			rr:constant schema:Person;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:givenName;
+		rr:objectMap [
+			rml:reference "name";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:familyName;
+		rr:objectMap [
+			rr:template "{ln1} {ln2}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:name;
+		rr:objectMap [
+			rr:template "{name} {ln1} {ln2}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:nOfCourse;
+		rr:objectMap [
+			rml:reference "nCourses";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:email;
+		rr:objectMap [
+			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},@fi.upm.es)))"
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:hasCountry;
+		rr:objectMap [
+			rr:parentTriplesMap <country>;
+			rr:joinCondition [
+				rmlc:child "{name}{ln1}{ln2}";
+				rmlc:parent "{name}{ln1}{ln2}";
+			];
+		];
+	].
