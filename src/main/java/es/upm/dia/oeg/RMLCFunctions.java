@@ -44,6 +44,33 @@ public class RMLCFunctions {
             case "sql:length":
                 rmlcFun = "LENGTH";
                 break;
+            case "sql:sum":
+                rmlcFun = "SUM";
+                break;
+            case "sql:day":
+                rmlcFun = "DAY";
+                break;
+            case "sql:dayName":
+                rmlcFun = "DAYNAME";
+                break;
+            case "sql:dayOfWeek":
+                rmlcFun = "DAYOFWEEK";
+                break;
+            case "sql:dayOfYear":
+                rmlcFun = "DAYOFYEAR";
+                break;
+            case "sql:month":
+                rmlcFun = "MONTH";
+                break;
+            case "sql:monthName":
+                rmlcFun = "MONTHNAME";
+                break;
+            case "sql:weekOfYear":
+                rmlcFun = "WEEKOFYEAR";
+                break;
+            case "sql:year":
+                rmlcFun = "YEAR";
+                break;
         }
         return rmlcFun;
 
