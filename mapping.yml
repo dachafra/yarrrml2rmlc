@@ -1,7 +1,7 @@
 prefixes:
   schema: "http://schema.org/"
   rmlc: "http://www.ex.org/ns/rmlc#"
-  rml: "http://semweb.mmlab.be/ns/rml#>"
+  rml: "http://semweb.mmlab.be/ns/rml#"
   ql: "http://semweb.mmlab.be/ns/ql#"
   rr: "http://www.w3.org/ns/r2rml#"
   sql: "http://w3.org/ns/sql#"
