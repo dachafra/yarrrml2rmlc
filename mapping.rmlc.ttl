@@ -1,8 +1,7 @@
-
 <publication>
 	rml:logicalSource [
 		rml:source "comment.csv";
-		rml:referenceForumation ql:CSV
+		rml:referenceFormulation ql:CSV
 	];
 
 	rr:subjectMap [
@@ -10,7 +9,7 @@
 		rr:template "http://ex.org/Comment/{date}{username}{comment}";
 	];
 	rr:predicateObjectMap[
-		rr:predicate a;
+		rr:predicate rdf:type;
 		rr:objectMap [
 			rr:constant schema:SocialMediaPosting;
 		];
@@ -37,7 +36,7 @@
 		rr:predicate schema:author;
 		rr:objectMap [
 			rr:parentTriplesMap <person>;
-			rr:joinCondition [
+			rmlc:joinCondition [
 				rmlc:child "{username}";
 				rmlc:parent "CONCAT(SUBSTRING({name},1,1),{ln1})";
 			];
@@ -46,7 +45,7 @@
 <country>
 	rml:logicalSource [
 		rml:source "people.csv";
-		rml:referenceForumation ql:CSV
+		rml:referenceFormulation ql:CSV
 	];
 
 	rr:subjectMap [
@@ -54,7 +53,7 @@
 		rr:template "http://ex.org/country/{cName}";
 	];
 	rr:predicateObjectMap[
-		rr:predicate a;
+		rr:predicate rdf:type;
 		rr:objectMap [
 			rr:constant schema:Country;
 		];
@@ -68,7 +67,7 @@
 <person>
 	rml:logicalSource [
 		rml:source "people.csv";
-		rml:referenceForumation ql:CSV
+		rml:referenceFormulation ql:CSV
 	];
 
 	rr:subjectMap [
@@ -76,7 +75,7 @@
 		rr:template "http://ex.org/Person/{name}{ln1}{ln2}";
 	];
 	rr:predicateObjectMap[
-		rr:predicate a;
+		rr:predicate rdf:type;
 		rr:objectMap [
 			rr:constant schema:Person;
 		];
@@ -115,7 +114,7 @@
 		rr:predicate ex:hasCountry;
 		rr:objectMap [
 			rr:parentTriplesMap <country>;
-			rr:joinCondition [
+			rmlc:joinCondition [
 				rmlc:child "{name}{ln1}{ln2}";
 				rmlc:parent "{name}{ln1}{ln2}";
 			];

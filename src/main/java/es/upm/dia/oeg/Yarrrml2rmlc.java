@@ -54,7 +54,7 @@ public class Yarrrml2rmlc {
             rmlcContent.append("\t\trml:source \""+((String)((ArrayList)content.get(i)).get(0)).replaceAll("\\[","").replaceAll("]","").replaceAll("~csv","")+"\";\n");
         }
 
-        rmlcContent.append("\t\trml:referenceForumation ql:CSV \n\t];\n\n");
+        rmlcContent.append("\t\trml:referenceFormulation ql:CSV \n\t];\n\n");
 
     }
 
@@ -99,7 +99,12 @@ public class Yarrrml2rmlc {
             Object predicateObject = predicateobjects.get(i);
             try{
                 ArrayList po = (ArrayList) predicateObject;
-                rmlcContent.append("\t\trr:predicate "+po.get(0)+";\n");
+                if(po.get(0).equals("a")){
+                    rmlcContent.append("\t\trr:predicate rdf:type;\n");
+                }
+                else {
+                    rmlcContent.append("\t\trr:predicate " + po.get(0) + ";\n");
+                }
                 rmlcContent.append("\t\trr:objectMap [\n");
                 try{
                     String object = (String) po.get(1);
@@ -124,7 +129,7 @@ public class Yarrrml2rmlc {
                 try{
                     LinkedHashMap<Object,Object> object = (LinkedHashMap<Object, Object>) pof.get("o");
                     String tripleMapParent = (String) object.get("mapping");
-                    rmlcContent.append("\t\t\trr:parentTriplesMap <"+tripleMapParent+">;\n\t\t\trr:joinCondition [\n");
+                    rmlcContent.append("\t\t\trr:parentTriplesMap <"+tripleMapParent+">;\n\t\t\trmlc:joinCondition [\n");
                     functions = (LinkedHashMap<String,Object>) object.get("condition");
                     ArrayList parameters=(ArrayList) functions.get("parameters");
                     translateFunctions(parameters.get(0),f,false);
@@ -168,6 +173,9 @@ public class Yarrrml2rmlc {
             rmlcContent.append("\t\t\trr:datatype "+object+";\n");
         }
         else {
+            if(object.equals("a")){
+                object = "rdf:type";
+            }
             rmlcContent.append("\t\t\trr:constant "+object+";\n");
         }
 
