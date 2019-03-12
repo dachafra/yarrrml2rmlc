@@ -55,7 +55,7 @@
 	].
 <country>
 	rml:logicalSource [
-		rml:source "https://github.com/oeg-upm/obda4csv/blob/master/example/people.csv";
+		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv";
 		rml:referenceFormulation ql:CSV
 	];
 
@@ -77,7 +77,7 @@
 	].
 <person>
 	rml:logicalSource [
-		rml:source "https://github.com/oeg-upm/obda4csv/blob/master/example/people.csv";
+		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv";
 		rml:referenceFormulation ql:CSV
 	];
 
