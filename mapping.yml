@@ -1,3 +1,15 @@
+prefixes:
+  schema: "http://schema.org/"
+  rmlc: "http://www.ex.org/ns/rmlc#"
+  rml: "http://semweb.mmlab.be/ns/rml#>"
+  ql: "http://semweb.mmlab.be/ns/ql#"
+  rr: "http://www.w3.org/ns/r2rml#"
+  sql: "http://w3.org/ns/sql#"
+  gtfs: "http://vocab.gtfs.org/terms#"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  ex: "http://ex.org/ns/ex#"
+
 mappings:
   publication:
     source:
