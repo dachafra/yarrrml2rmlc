@@ -221,7 +221,15 @@ public class Yarrrml2rmlc {
     }
 
     public static void translateParameter(String param, StringBuilder functionBuilder){
-        functionBuilder.append(param.replaceAll("\\$\\(","{").replaceAll("\\)","}"));
+        if(param.matches("\\$.*")) {
+            functionBuilder.append(param.replaceAll("\\$\\(", "{").replaceAll("\\)", "}"));
+        }
+        else if(!param.matches("\\d+")){
+            functionBuilder.append("'"+param+"'");
+        }
+        else{
+            functionBuilder.append(param);
+        }
     }
 
 

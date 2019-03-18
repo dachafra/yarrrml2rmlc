@@ -8,7 +8,6 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix ex: <http://ex.org/ns/ex#>.
-
 <publication>
 	rml:logicalSource [
 		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/comments.csv";
@@ -118,7 +117,7 @@
 	rr:predicateObjectMap[
 		rr:predicate schema:email;
 		rr:objectMap [
-			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},@fi.upm.es)))"
+			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},'@fi.upm.es')))"
 		];
 	];
 	rr:predicateObjectMap[
