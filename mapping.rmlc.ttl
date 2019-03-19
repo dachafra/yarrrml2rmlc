@@ -48,7 +48,7 @@
 			rr:parentTriplesMap <person>;
 			rmlc:joinCondition [
 				rmlc:child "{username}";
-				rmlc:parent "CONCAT(SUBSTRING({name},1,1),{ln1})";
+				rmlc:parent "LOWER(CONCAT(SUBSTRING({name},1,1),{ln1}))";
 			];
 		];
 	].

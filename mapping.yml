@@ -29,16 +29,20 @@ mappings:
               - [str1, $(username)]
               - parameter: str2
                 value:
-                  function: sql:concat
+                  function: sql:lower
                   parameters:
                     - parameter: sql:valueParameter
                       value:
-                        function: sql:substring
+                        function: sql:concat
                         parameters:
-                          - [sql:valueParameter, $(name), o]
-                          - [sql:valueParameter4, "1"]
-                          - [sql:valueParameter5, "1"]
-                    - [sql:valueParameter2, $(ln1), o]
+                          - parameter: sql:valueParameter
+                            value:
+                              function: sql:substring
+                              parameters:
+                                - [sql:valueParameter, $(name), o]
+                                - [sql:valueParameter4, "1"]
+                                - [sql:valueParameter5, "1"]
+                          - [sql:valueParameter2, $(ln1), o]
   country:
     source: 
       - [https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv~csv]
