@@ -54,7 +54,7 @@ mappings:
   person:
     source: 
       - [https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv~csv]
-    s: http://ex.org/Person/$(name)$(ln1)$(ln2)
+    s: http://ex.org/Person/$(name)$(ln1)
     po:
       - [a, schema:Person]
       - [schema:givenName, $(name)]
