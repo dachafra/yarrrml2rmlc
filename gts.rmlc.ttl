@@ -12,9 +12,9 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix rmlc: <http://www.ex.org/ns/rmlc#>
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-@base <http://example.org/>
+@prefix rmlc: <http://www.ex.org/ns/rmlc#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@base <http://example.org/>.
 <stoptimes>
 	rml:logicalSource [
 		rml:source "gtfs/stop_times.csv";
