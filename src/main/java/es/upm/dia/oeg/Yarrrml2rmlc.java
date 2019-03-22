@@ -30,6 +30,7 @@ public class Yarrrml2rmlc {
                 String value = entry.getValue();
                 rmlcContent.append("@prefix " + key + ": <" + value + ">.\n");
             }
+            rmlcContent.append("@base <http://example.org/>\n");
         }
 
     }
@@ -39,7 +40,7 @@ public class Yarrrml2rmlc {
             for (Map.Entry<String, Object> entry : content.entrySet()) {
                 rmlcContent.append("<"+entry.getKey()+">\n");
                 LinkedHashMap<String,Object> objects = (LinkedHashMap<String,Object>) entry.getValue();
-                translateSource((ArrayList)objects.get("source"),rmlcContent);
+                translateSource((ArrayList)objects.get("sources"),rmlcContent);
                 translateSubject(objects,rmlcContent);
                 translatePredicateObjectMaps(objects,rmlcContent);
             }
@@ -116,9 +117,6 @@ public class Yarrrml2rmlc {
                         translateObject((String)object.get(j),rmlcContent,j);
                     }
                 }
-
-
-
             }catch (Exception e){
                 //if we have a join or function
                 StringBuilder f = new StringBuilder();
@@ -126,19 +124,22 @@ public class Yarrrml2rmlc {
                 LinkedHashMap<String,Object> pof = (LinkedHashMap<String,Object>) predicateObject;
                 rmlcContent.append("\t\trr:predicate "+pof.get("p")+";\n");
                 rmlcContent.append("\t\trr:objectMap [\n");
+                ArrayList object = (ArrayList) pof.get("o");
                 try{
-                    LinkedHashMap<Object,Object> object = (LinkedHashMap<Object, Object>) pof.get("o");
-                    String tripleMapParent = (String) object.get("mapping");
-                    rmlcContent.append("\t\t\trr:parentTriplesMap <"+tripleMapParent+">;\n\t\t\trmlc:joinCondition [\n");
-                    functions = (LinkedHashMap<String,Object>) object.get("condition");
-                    ArrayList parameters=(ArrayList) functions.get("parameters");
-                    translateFunctions(parameters.get(0),f,false);
-                    rmlcContent.append("\t\t\t\trmlc:child \""+f.toString()+"\";\n");
-                    f= new StringBuilder();
-                    translateFunctions(parameters.get(1),f,false);
-                    rmlcContent.append("\t\t\t\trmlc:parent \""+f.toString()+"\";\n\t\t\t];\n");
+                    for(Object o : object) {
+                        LinkedHashMap<Object, Object> join = (LinkedHashMap<Object, Object>) o;
+                        String tripleMapParent = (String) join.get("mapping");
+                        rmlcContent.append("\t\t\trr:parentTriplesMap <" + tripleMapParent + ">;\n\t\t\trmlc:joinCondition [\n");
+                        functions = (LinkedHashMap<String, Object>) join.get("condition");
+                        ArrayList parameters = (ArrayList) functions.get("parameters");
+                        translateFunctions(parameters.get(0), f, false);
+                        rmlcContent.append("\t\t\t\trmlc:child \"" + f.toString() + "\";\n");
+                        f = new StringBuilder();
+                        translateFunctions(parameters.get(1), f, false);
+                        rmlcContent.append("\t\t\t\trmlc:parent \"" + f.toString() + "\";\n\t\t\t];\n");
+                        f = new StringBuilder();
+                    }
                 }catch (Exception e2) {
-                    ArrayList object = (ArrayList) pof.get("o");
                     functions = (LinkedHashMap<String, Object>) object.get(0);
                     translateFunctions(functions, f, true);
                     rmlcContent.append("\t\t\trmlc:function \""+f.toString()+"\"\n");
@@ -155,7 +156,7 @@ public class Yarrrml2rmlc {
     }
 
     private static void translateObject(String object, StringBuilder rmlcContent, Integer pos){
-        if(object.matches(".+\\$\\(.*\\).+") || object.matches("\\$\\(.*\\).*\\$\\(.*\\)")){
+        if(object.matches(".+\\$\\(.*\\).*") || object.matches(".*\\$\\(.*\\).+")  || object.matches("\\$\\(.*\\).*\\$\\(.*\\)")){
             object=object.replaceAll("\\$\\(","{").replaceAll("\\)","}");
             rmlcContent.append("\t\t\trr:template \""+object+"\";\n");
         }
