@@ -30,6 +30,8 @@ public class Yarrrml2rmlc {
                 String value = entry.getValue();
                 rmlcContent.append("@prefix " + key + ": <" + value + ">.\n");
             }
+            rmlcContent.append("@prefix rmlc: <http://www.oeg-upm.net/ns/rmlc#>\n");
+            rmlcContent.append("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
             rmlcContent.append("@base <http://example.org/>\n");
         }
 
