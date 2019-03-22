@@ -11,12 +11,13 @@
 @prefix dct: <http://purl.org/dc/terms/>.
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
-@prefix rmlc: <http://www.oeg-upm.net/ns/rmlc#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rmlc: <http://www.ex.org/ns/rmlc#>
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 @base <http://example.org/>
 <stoptimes>
 	rml:logicalSource [
-		rml:source "emt-gtfs/stop_times.csv";
+		rml:source "gtfs/stop_times.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -94,7 +95,7 @@
 	].
 <trips>
 	rml:logicalSource [
-		rml:source "emt-gtfs/trips.csv";
+		rml:source "gtfs/trips.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -175,7 +176,7 @@
 	].
 <routes>
 	rml:logicalSource [
-		rml:source "emt-gtfs/routes.csv";
+		rml:source "gtfs/routes.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -243,7 +244,7 @@
 	].
 <agency>
 	rml:logicalSource [
-		rml:source "emt-gtfs/agency.csv";
+		rml:source "gtfs/agency.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -295,7 +296,7 @@
 	].
 <stops>
 	rml:logicalSource [
-		rml:source "emt-gtfs/stops.csv";
+		rml:source "gtfs/stops.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -377,7 +378,7 @@
 	].
 <services_dates>
 	rml:logicalSource [
-		rml:source "emt-gtfs/calendar_dates.csv";
+		rml:source "gtfs/calendar_dates.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -409,55 +410,9 @@
 			rml:reference "exeception_type";
 		];
 	].
-<fares>
-	rml:logicalSource [
-		rml:source "emt-gtfs/fare_attributes.csv";
-		rml:referenceFormulation ql:CSV 
-	];
-
-	rr:subjectMap [
-		a rr:SubjectMap;
-		rr:template "http://linkedgtfs.com/CITY/fare/{fare_id}";
-	];
-	rr:predicateObjectMap[
-		rr:predicate rdf:type;
-		rr:objectMap [
-			rr:constant gtfs:Fare;
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate schema:price;
-		rr:objectMap [
-			rml:reference "price";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate schema:priceCurrency;
-		rr:objectMap [
-			rml:reference "currency_type";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:paymentMethod;
-		rr:objectMap [
-			rr:template "http://vocab.gtfs.org/terms#PaymentMethod={payment_method}";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:transfers;
-		rr:objectMap [
-			rr:template "http://vocab.gtfs.org/terms#Transfers={transfers}";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:transferExpiryTime;
-		rr:objectMap [
-			rml:reference "transfer_duration";
-		];
-	].
 <services>
 	rml:logicalSource [
-		rml:source "emt-gtfs/calendar.csv";
+		rml:source "gtfs/calendar.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -527,7 +482,7 @@
 	].
 <feed>
 	rml:logicalSource [
-		rml:source "emt-gtfs/feed_info.csv";
+		rml:source "gtfs/feed_info.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -573,7 +528,7 @@
 	].
 <shapes>
 	rml:logicalSource [
-		rml:source "emt-gtfs/shapes.csv";
+		rml:source "gtfs/shapes.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -605,63 +560,9 @@
 			rml:reference "shape_dist_traveled";
 		];
 	].
-<farerules>
-	rml:logicalSource [
-		rml:source "emt-gtfs/fare_rules.csv";
-		rml:referenceFormulation ql:CSV 
-	];
-
-	rr:subjectMap [
-		a rr:SubjectMap;
-		rr:template "http://linkedgtfs.com/CITY/farerules/{fare_id}-{route_id}";
-	];
-	rr:predicateObjectMap[
-		rr:predicate rdf:type;
-		rr:objectMap [
-			rr:constant gtfs:FareRule;
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:originZone;
-		rr:objectMap [
-			rml:reference "origin_id";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:destinationZone;
-		rr:objectMap [
-			rml:reference "destination_id";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:zone;
-		rr:objectMap [
-			rml:reference "contains_id";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:route;
-		rr:objectMap [
-			rr:parentTriplesMap <routes>;
-			rmlc:joinCondition [
-				rmlc:child "{route_id}";
-				rmlc:parent "{route_id}";
-			];
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:fare;
-		rr:objectMap [
-			rr:parentTriplesMap <routes>;
-			rmlc:joinCondition [
-				rmlc:child "{route_id}";
-				rmlc:parent "{route_id}";
-			];
-		];
-	].
 <frequencies>
 	rml:logicalSource [
-		rml:source "emt-gtfs/frequencies.csv";
+		rml:source "gtfs/frequencies.csv";
 		rml:referenceFormulation ql:CSV 
 	];
 
@@ -706,54 +607,6 @@
 			rmlc:joinCondition [
 				rmlc:child "{trip_id}";
 				rmlc:parent "{trip_id}";
-			];
-		];
-	].
-<transfers>
-	rml:logicalSource [
-		rml:source "emt-gtfs/transfers.csv";
-		rml:referenceFormulation ql:CSV 
-	];
-
-	rr:subjectMap [
-		a rr:SubjectMap;
-		rr:template "http://linkedgtfs.com/CITY/transfer/{from_stop_id}-{to_stop_id}-{transfer_type}";
-	];
-	rr:predicateObjectMap[
-		rr:predicate rdf:type;
-		rr:objectMap [
-			rr:constant gtfs:TransferRule;
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:transferType;
-		rr:objectMap [
-			rr:template "http://vocab.gtfs.org/terms#TransferType={transfer_type}";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:minimumTransferTime;
-		rr:objectMap [
-			rml:reference "min_transfer_time";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:originStop;
-		rr:objectMap [
-			rr:parentTriplesMap <stops>;
-			rmlc:joinCondition [
-				rmlc:child "{from_stop_id}";
-				rmlc:parent "{stop_id}";
-			];
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:destinationStop;
-		rr:objectMap [
-			rr:parentTriplesMap <stops>;
-			rmlc:joinCondition [
-				rmlc:child "{to_stop_id}";
-				rmlc:parent "{stop_id}";
 			];
 		];
 	].
