@@ -147,6 +147,8 @@
 				rmlc:child "{service_id}";
 				rmlc:parent "{service_id}";
 			];
+		];
+		rr:objectMap [
 			rr:parentTriplesMap <services_dates>;
 			rmlc:joinCondition [
 				rmlc:child "{service_id}";

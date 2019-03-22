@@ -119,16 +119,18 @@ public class Yarrrml2rmlc {
                         translateObject((String)object.get(j),rmlcContent,j);
                     }
                 }
+                rmlcContent.append("\t\t];\n");
             }catch (Exception e){
                 //if we have a join or function
                 StringBuilder f = new StringBuilder();
                 LinkedHashMap<String,Object> functions;
                 LinkedHashMap<String,Object> pof = (LinkedHashMap<String,Object>) predicateObject;
                 rmlcContent.append("\t\trr:predicate "+pof.get("p")+";\n");
-                rmlcContent.append("\t\trr:objectMap [\n");
+
                 ArrayList object = (ArrayList) pof.get("o");
                 try{
                     for(Object o : object) {
+                        rmlcContent.append("\t\trr:objectMap [\n");
                         LinkedHashMap<Object, Object> join = (LinkedHashMap<Object, Object>) o;
                         String tripleMapParent = (String) join.get("mapping");
                         rmlcContent.append("\t\t\trr:parentTriplesMap <" + tripleMapParent + ">;\n\t\t\trmlc:joinCondition [\n");
@@ -140,18 +142,20 @@ public class Yarrrml2rmlc {
                         translateFunctions(parameters.get(1), f, false);
                         rmlcContent.append("\t\t\t\trmlc:parent \"" + f.toString() + "\";\n\t\t\t];\n");
                         f = new StringBuilder();
+                        rmlcContent.append("\t\t];\n");
                     }
                 }catch (Exception e2) {
+                    rmlcContent.append("\t\trr:objectMap [\n");
                     functions = (LinkedHashMap<String, Object>) object.get(0);
                     translateFunctions(functions, f, true);
-                    rmlcContent.append("\t\t\trmlc:function \""+f.toString()+"\"\n");
+                    rmlcContent.append("\t\t\trmlc:function \""+f.toString()+"\"\n\t\t];\n");
                 }
 
             }
             if(i==predicateobjects.size()-1)
-                rmlcContent.append("\t\t];\n\t].\n");
+                rmlcContent.append("\t].\n");
             else
-                rmlcContent.append("\t\t];\n\t];\n");
+                rmlcContent.append("\t];\n");
         }
 
 
