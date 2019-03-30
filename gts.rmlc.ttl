@@ -92,7 +92,8 @@
 				rmlc:parent "{stop_id}";
 			];
 		];
-	].
+	];
+.
 <trips>
 	rml:logicalSource [
 		rml:source "gtfs/trips.csv";
@@ -136,20 +137,19 @@
 	rr:predicateObjectMap[
 		rr:predicate gtfs:wheelchairAccessible;
 		rr:objectMap [
-			rml:reference "wheelchair_accesible";
+			rml:reference "wheelchair_accessible";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate gtfs:shape;
+		rr:objectMap [
+			rr:template "http://linkedgtfs.com/CITY/shape/{shape_id}";
 		];
 	];
 	rr:predicateObjectMap[
 		rr:predicate gtfs:service;
 		rr:objectMap [
 			rr:parentTriplesMap <services>;
-			rmlc:joinCondition [
-				rmlc:child "{service_id}";
-				rmlc:parent "{service_id}";
-			];
-		];
-		rr:objectMap [
-			rr:parentTriplesMap <services_dates>;
 			rmlc:joinCondition [
 				rmlc:child "{service_id}";
 				rmlc:parent "{service_id}";
@@ -166,16 +166,7 @@
 			];
 		];
 	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:shape;
-		rr:objectMap [
-			rr:parentTriplesMap <shapes>;
-			rmlc:joinCondition [
-				rmlc:child "{shape_id}";
-				rmlc:parent "{shape_id}";
-			];
-		];
-	].
+.
 <routes>
 	rml:logicalSource [
 		rml:source "gtfs/routes.csv";
@@ -231,7 +222,7 @@
 	rr:predicateObjectMap[
 		rr:predicate gtfs:textColor;
 		rr:objectMap [
-			rml:reference "gtfs:textColor";
+			rml:reference "route_text_color";
 		];
 	];
 	rr:predicateObjectMap[
@@ -243,7 +234,8 @@
 				rmlc:parent "{agency_id}";
 			];
 		];
-	].
+	];
+.
 <agency>
 	rml:logicalSource [
 		rml:source "gtfs/agency.csv";
@@ -295,7 +287,8 @@
 		rr:objectMap [
 			rml:reference "agency_fare_url";
 		];
-	].
+	];
+.
 <stops>
 	rml:logicalSource [
 		rml:source "gtfs/stops.csv";
@@ -339,7 +332,7 @@
 	rr:predicateObjectMap[
 		rr:predicate geo:long;
 		rr:objectMap [
-			rml:reference "stop_long";
+			rml:reference "stop_lon";
 		];
 	];
 	rr:predicateObjectMap[
@@ -377,7 +370,8 @@
 		rr:objectMap [
 			rml:reference "wheelchair_boarding";
 		];
-	].
+	];
+.
 <services_dates>
 	rml:logicalSource [
 		rml:source "gtfs/calendar_dates.csv";
@@ -395,12 +389,6 @@
 		];
 	];
 	rr:predicateObjectMap[
-		rr:predicate gtfs:service;
-		rr:objectMap [
-			rml:reference "service_id";
-		];
-	];
-	rr:predicateObjectMap[
 		rr:predicate dct:date;
 		rr:objectMap [
 			rml:reference "date";
@@ -409,9 +397,20 @@
 	rr:predicateObjectMap[
 		rr:predicate gtfs:dateAddition;
 		rr:objectMap [
-			rml:reference "exeception_type";
+			rml:reference "exception_type";
 		];
-	].
+	];
+	rr:predicateObjectMap[
+		rr:predicate gtfs:service;
+		rr:objectMap [
+			rr:parentTriplesMap <services>;
+			rmlc:joinCondition [
+				rmlc:child "{service_id}";
+				rmlc:parent "{service_id}";
+			];
+		];
+	];
+.
 <services>
 	rml:logicalSource [
 		rml:source "gtfs/calendar.csv";
@@ -481,7 +480,8 @@
 		rr:objectMap [
 			rml:reference "end_date";
 		];
-	].
+	];
+.
 <feed>
 	rml:logicalSource [
 		rml:source "gtfs/feed_info.csv";
@@ -501,7 +501,7 @@
 	rr:predicateObjectMap[
 		rr:predicate foaf:page;
 		rr:objectMap [
-			rml:reference "feed_published_url";
+			rml:reference "feed_publisher_url";
 		];
 	];
 	rr:predicateObjectMap[
@@ -527,41 +527,8 @@
 		rr:objectMap [
 			rml:reference "feed_version";
 		];
-	].
-<shapes>
-	rml:logicalSource [
-		rml:source "gtfs/shapes.csv";
-		rml:referenceFormulation ql:CSV 
 	];
-
-	rr:subjectMap [
-		a rr:SubjectMap;
-		rr:template "http://linkedgtfs.com/CITY/shape/{shape_id}";
-	];
-	rr:predicateObjectMap[
-		rr:predicate geo:lat;
-		rr:objectMap [
-			rml:reference "shape_pt_lat";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate geo:long;
-		rr:objectMap [
-			rml:reference "shape_pt_lon";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:pointSequence;
-		rr:objectMap [
-			rml:reference "shape_pt_sequence";
-		];
-	];
-	rr:predicateObjectMap[
-		rr:predicate gtfs:distanceTraveled;
-		rr:objectMap [
-			rml:reference "shape_dist_traveled";
-		];
-	].
+.
 <frequencies>
 	rml:logicalSource [
 		rml:source "gtfs/frequencies.csv";
@@ -611,5 +578,41 @@
 				rmlc:parent "{trip_id}";
 			];
 		];
-	].
+	];
+.
+<shapes>
+	rml:logicalSource [
+		rml:source "gtfs/shapes.csv";
+		rml:referenceFormulation ql:CSV 
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://linkedgtfs.com/CITY/shape/{shape_id}{shape_pt_sequence}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate geo:lat;
+		rr:objectMap [
+			rml:reference "shape_pt_lat";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate geo:long;
+		rr:objectMap [
+			rml:reference "shape_pt_lon";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate gtfs:pointSequence;
+		rr:objectMap [
+			rml:reference "shape_pt_sequence";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate gtfs:distanceTraveled;
+		rr:objectMap [
+			rml:reference "shape_dist";
+		];
+	];
+.
 

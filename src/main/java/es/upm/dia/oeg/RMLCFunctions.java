@@ -71,6 +71,9 @@ public class RMLCFunctions {
             case "sql:year":
                 rmlcFun = "YEAR";
                 break;
+            case "sql:regexp_replace":
+                rmlcFun ="REGEXP_REPLACE";
+                break;
         }
         return rmlcFun;
 

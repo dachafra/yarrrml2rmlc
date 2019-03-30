@@ -153,7 +153,7 @@ public class Yarrrml2rmlc {
 
             }
             if(i==predicateobjects.size()-1)
-                rmlcContent.append("\t].\n");
+                rmlcContent.append("\t];\n.\n");
             else
                 rmlcContent.append("\t];\n");
         }
