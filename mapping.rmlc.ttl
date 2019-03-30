@@ -8,10 +8,13 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix ex: <http://ex.org/ns/ex#>.
+@prefix rmlc: <http://www.ex.org/ns/rmlc#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@base <http://example.org/>.
 <publication>
 	rml:logicalSource [
-		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/comments.csv";
-		rml:referenceFormulation ql:CSV
+		rml:source "https://raw.githubusercontent.com/morph-csv/morph-csv/rml-translation/evaluation/motivating-example/comments.csv";
+		rml:referenceFormulation ql:CSV 
 	];
 
 	rr:subjectMap [
@@ -51,11 +54,12 @@
 				rmlc:parent "LOWER(CONCAT(SUBSTRING({name},1,1),{ln1}))";
 			];
 		];
-	].
+	];
+.
 <country>
 	rml:logicalSource [
-		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv";
-		rml:referenceFormulation ql:CSV
+		rml:source "https://raw.githubusercontent.com/morph-csv/morph-csv/rml-translation/evaluation/motivating-example/people.csv";
+		rml:referenceFormulation ql:CSV 
 	];
 
 	rr:subjectMap [
@@ -73,11 +77,12 @@
 		rr:objectMap [
 			rml:reference "cOfficialName";
 		];
-	].
+	];
+.
 <person>
 	rml:logicalSource [
-		rml:source "https://raw.githubusercontent.com/oeg-upm/obda4csv/master/example/people.csv";
-		rml:referenceFormulation ql:CSV
+		rml:source "https://raw.githubusercontent.com/morph-csv/morph-csv/rml-translation/evaluation/motivating-example/people.csv";
+		rml:referenceFormulation ql:CSV 
 	];
 
 	rr:subjectMap [
@@ -109,15 +114,9 @@
 		];
 	];
 	rr:predicateObjectMap[
-		rr:predicate ex:nOfCourse;
-		rr:objectMap [
-			rml:reference "nCourses";
-		];
-	];
-	rr:predicateObjectMap[
 		rr:predicate schema:email;
 		rr:objectMap [
-			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},'@fi.upm.es')))"
+			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},'@ex.com')))"
 		];
 	];
 	rr:predicateObjectMap[
@@ -129,4 +128,6 @@
 				rmlc:parent "{name}{ln1}{ln2}";
 			];
 		];
-	].
+	];
+.
+

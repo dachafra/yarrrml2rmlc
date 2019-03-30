@@ -128,11 +128,11 @@ public class Yarrrml2rmlc {
                 rmlcContent.append("\t\trr:predicate "+pof.get("p")+";\n");
 
                 ArrayList object = (ArrayList) pof.get("o");
-                try{
-                    for(Object o : object) {
-                        rmlcContent.append("\t\trr:objectMap [\n");
-                        LinkedHashMap<Object, Object> join = (LinkedHashMap<Object, Object>) o;
+                for(Object o : object) {
+                    LinkedHashMap<Object, Object> join = (LinkedHashMap<Object, Object>) o;
+                    if(join.get("mapping")!=null) {
                         String tripleMapParent = (String) join.get("mapping");
+                        rmlcContent.append("\t\trr:objectMap [\n");
                         rmlcContent.append("\t\t\trr:parentTriplesMap <" + tripleMapParent + ">;\n\t\t\trmlc:joinCondition [\n");
                         functions = (LinkedHashMap<String, Object>) join.get("condition");
                         ArrayList parameters = (ArrayList) functions.get("parameters");
@@ -144,11 +144,12 @@ public class Yarrrml2rmlc {
                         f = new StringBuilder();
                         rmlcContent.append("\t\t];\n");
                     }
-                }catch (Exception e2) {
-                    rmlcContent.append("\t\trr:objectMap [\n");
-                    functions = (LinkedHashMap<String, Object>) object.get(0);
-                    translateFunctions(functions, f, true);
-                    rmlcContent.append("\t\t\trmlc:function \""+f.toString()+"\"\n\t\t];\n");
+                    else{
+                        rmlcContent.append("\t\trr:objectMap [\n");
+                        functions = (LinkedHashMap<String, Object>) object.get(0);
+                        translateFunctions(functions, f, true);
+                        rmlcContent.append("\t\t\trmlc:function \""+f.toString()+"\"\n\t\t];\n");
+                    }
                 }
 
             }
