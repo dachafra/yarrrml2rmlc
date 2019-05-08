@@ -16,9 +16,9 @@ public class App
     public static void main( String[] args )
     {
         try {
-            String content = FileUtils.readFileToString(new File("./mapping.yml"), Charsets.toCharset("UTF-8"));
+            String content = FileUtils.readFileToString(new File("./mapping2.yml"), Charsets.toCharset("UTF-8"));
             String rmlcMapping=Yarrrml2rmlc.translateYarrrml2RMLC(content);
-            PrintWriter pw = new PrintWriter("./mapping.rmlc.ttl","UTF-8");
+            PrintWriter pw = new PrintWriter("./mapping2.rmlc.ttl","UTF-8");
             pw.println(rmlcMapping);
             pw.close();
         } catch (IOException e) {

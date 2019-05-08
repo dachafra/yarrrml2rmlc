@@ -164,7 +164,20 @@ public class Yarrrml2rmlc {
 
     private static void translateObject(String object, StringBuilder rmlcContent, Integer pos){
         if(object.matches(".+\\$\\(.*\\).*") || object.matches(".*\\$\\(.*\\).+")  || object.matches("\\$\\(.*\\).*\\$\\(.*\\)")){
-            object=object.replaceAll("\\$\\(","{").replaceAll("\\)","}");
+            char[] ch = object.toCharArray();
+            boolean flag=false;
+            for(int i=0; i< ch.length ; i++){
+                if(ch[i] == '$' && ch[i+1]=='('){
+                    ch[i+1] = '{';
+                    flag = true;
+                }
+                if(flag && ch[i]==')'){
+                    ch[i] = '}';
+                    flag=false;
+                }
+            }
+            object=String.copyValueOf(ch).replaceAll("\\$","");
+
             rmlcContent.append("\t\t\trr:template \""+object+"\";\n");
         }
         else if(object.matches("\\$\\(.*\\)")){
