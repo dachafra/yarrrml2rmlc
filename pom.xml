@@ -6,7 +6,7 @@
 
   <groupId>es.upm.dia.oeg</groupId>
   <artifactId>yarrrml2rmlc</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.9</version>
 
   <name>yarrrml2rmlc</name>
   <!-- FIXME change it to the project's website -->
@@ -17,6 +17,14 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub dachafra Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/dachafra/yarrrml2rmlc</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
@@ -29,6 +37,16 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+      <version>2.9.9</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.9.9</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
       <version>2.9.9</version>
     </dependency>
     <dependency>
