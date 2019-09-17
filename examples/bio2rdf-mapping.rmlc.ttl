@@ -1,0 +1,205 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix fno: <http://w3id.org/function/ontology#>.
+@prefix sql: <http://dchaves.oeg-upm.net/resources/function/sql.ttl#>.
+@prefix bv: <http://bio2rdf.org/bio2rdf_vocabulary:>.
+@prefix homogv: <http://bio2rdf.org/homologene_vocabulary:>.
+@prefix ncbiv: <http://bio2rdf.org/ncbigene_vocabulary:>.
+@prefix rmlc: <http://www.ex.org/ns/rmlc#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@base <http://example.org/>.
+<TMhomologene>
+	rml:logicalSource [
+		rml:source "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.data";
+		rml:referenceFormulation ql:CSV 
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://bio2rdf.org/homologene:{hid}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant homogv:Resource;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant homogv:Homologene-Group;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:template "homologene group {hid} [homologene:{hid}]";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate dcterms:title;
+		rr:objectMap [
+			rr:template "homologene group {hid}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate dcterms:identifier;
+		rr:objectMap [
+			rr:template "[homologene:{hid}]";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate homogv:x-ncbigene;
+		rr:objectMap [
+			rr:parentTriplesMap <TMncbigene-gene_info>;
+			rmlc:joinCondition [
+				rmlc:child "{ncbigene}";
+				rmlc:parent "{GeneID}";
+			];
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate homogv:gene-symbol;
+		rr:objectMap [
+			rml:reference "genesymbol";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate homogv:x-gi;
+		rr:objectMap [
+			rr:template "gi:{gi}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate homogv:x-refseq;
+		rr:objectMap [
+			rr:template "refseq:{refseq}";
+		];
+	];
+.
+<TMncbigene-gene_info>
+	rml:logicalSource [
+		rml:source "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info";
+		rml:referenceFormulation ql:CSV 
+	];
+
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://bio2rdf.org/ncbigene:{GeneID}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant ncbiv:Resource;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant ncbiv:Gene;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:template "http://bio2rdf.org/ncbigene_vocabulary:{type_of_gene}-Gene";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:template "{description} (symbol:{Symbol}, taxon:{tax_id}) [ncbigene:{GeneID}]";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate dcterms:title;
+		rr:objectMap [
+			rr:template "{description} (symbol:{Symbol}, taxon:{tax_id})";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate dcterms:description;
+		rr:objectMap [
+			rml:reference "description";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate dcterms:identifier;
+		rr:objectMap [
+			rr:template "ncbigene:{GeneID}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:symbol;
+		rr:objectMap [
+			rml:reference "Symbol";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:locus;
+		rr:objectMap [
+			rml:reference "LocusTag";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:symbol-synonym;
+		rr:objectMap [
+			rml:reference "Synonyms";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:dbxref;
+		rr:objectMap [
+			rml:reference "dbXrefs";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:chromosome;
+		rr:objectMap [
+			rml:reference "chromosome";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:map-location;
+		rr:objectMap [
+			rml:reference "map_location";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:nomenclature-authority;
+		rr:objectMap [
+			rml:reference "Symbol_from_nomeclature_authority";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:nomenclature-authority-fullname;
+		rr:objectMap [
+			rml:reference "Full_name_from_nomenclature_authority";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:nomenclature-status;
+		rr:objectMap [
+			rml:reference "Nomenclature_status";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:other-designations;
+		rr:objectMap [
+			rml:reference "Other_designations";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ncbiv:modification-date;
+		rr:objectMap [
+			rml:reference "Modification_date";
+		];
+	];
+.
+

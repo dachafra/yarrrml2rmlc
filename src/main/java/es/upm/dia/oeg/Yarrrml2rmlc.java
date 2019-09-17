@@ -111,12 +111,18 @@ public class Yarrrml2rmlc {
                 rmlcContent.append("\t\trr:objectMap [\n");
                 try{
                     String object = (String) po.get(1);
-                    translateObject(object,rmlcContent,0);
+                    translateObject(object,rmlcContent);
+                    if(po.size()>2){
+                        translateTermDataTypes((String)po.get(2),rmlcContent);
+                    }
+                    if (((String) po.get(1)).matches(".*~iri")){
+                        translateTermDataTypes("",rmlcContent);
+                    }
                 }catch (Exception e){
                     //if object is an array
                     ArrayList object = (ArrayList) po.get(1);
                     for(int j=0; j<object.size();j++){
-                        translateObject((String)object.get(j),rmlcContent,j);
+                        translateObject((String)object.get(j),rmlcContent);
                     }
                 }
                 rmlcContent.append("\t\t];\n");
@@ -162,7 +168,7 @@ public class Yarrrml2rmlc {
 
     }
 
-    private static void translateObject(String object, StringBuilder rmlcContent, Integer pos){
+    private static void translateObject(String object, StringBuilder rmlcContent){
         if(object.matches(".+\\$\\(.*\\).*") || object.matches(".*\\$\\(.*\\).+")  || object.matches("\\$\\(.*\\).*\\$\\(.*\\)")){
             char[] ch = object.toCharArray();
             boolean flag=false;
@@ -178,21 +184,17 @@ public class Yarrrml2rmlc {
             }
             object=String.copyValueOf(ch).replaceAll("\\$","");
 
-            rmlcContent.append("\t\t\trr:template \""+object+"\";\n");
+            rmlcContent.append("\t\t\trr:template \""+object.replaceAll("~iri","")+"\";\n");
         }
         else if(object.matches("\\$\\(.*\\)")){
             rmlcContent.append("\t\t\trml:reference \""+object.replaceAll("\\$\\(","").replaceAll("\\)","")+"\";\n");
         }
-
-        else if(object.matches(".*~lang")){
-            rmlcContent.append("\t\t\trr:language \""+object.replaceAll("~~lang","")+"\";\n");
-        }
-        else if(object.matches(".*~iri")){
-            rmlcContent.append("\t\t\trr:termType rr:IRI");
-        }
-        else if((object.matches(".*:.*") || object.matches("http[s]?://.*")) && pos!=0){
-            rmlcContent.append("\t\t\trr:datatype "+object+";\n");
-        }
+        //else if(object.matches(".*~iri")){
+        //    rmlcContent.append("\t\t\trr:termType rr:IRI");
+        //}
+        //else if((object.matches(".*:.*") || object.matches("http[s]?://.*")) && pos!=0){
+        //    rmlcContent.append("\t\t\trr:datatype "+object+";\n");
+        //}
         else {
             if(object.equals("a")){
                 object = "rdf:type";
@@ -200,6 +202,19 @@ public class Yarrrml2rmlc {
             rmlcContent.append("\t\t\trr:constant "+object+";\n");
         }
 
+    }
+
+    public static void translateTermDataTypes(String datatype, StringBuilder rmlcContent){
+
+        if(datatype.equals("")){
+            rmlcContent.append("\t\t\trr:termType rr:IRI;\n");
+        }
+        else if(datatype.matches(".*~lang")){
+            rmlcContent.append("\t\t\trr:language \""+datatype.replaceAll("~lang","")+"\";\n");
+        }
+        else{
+            rmlcContent.append("\t\t\trr:datatype "+datatype+";\n");
+        }
     }
 
     private static void translateFunctions(Object f1, StringBuilder functionBuilder, Boolean flag){
